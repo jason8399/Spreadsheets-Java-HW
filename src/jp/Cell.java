@@ -8,21 +8,21 @@ import java.util.regex.Pattern;
 /**
  * Created by JasonPan on 3/31/15.
  */
-public class Block {
+public class Cell {
     private int number;
     private String formula;
     private boolean isFormula;
 
-    public Block(){
+    public Cell(){
 
     }
 
-    public Block(int input) {
+    public Cell(int input) {
         this.number = input;
         this.isFormula = false;
     }
 
-    public Block(String input) {
+    public Cell(String input) {
         this.formula = input;
         this.isFormula = true;
     }
