@@ -1,6 +1,9 @@
 package jp;
 
+import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,6 +12,7 @@ import java.util.regex.Pattern;
  */
 public class Spreadsheets {
     private final String TABLE = "ABCDEF";
+    private final String OPEARTOR = "+-*/";
     private Cell[][] sheet;
     private int row;
     private int column;
@@ -64,5 +68,76 @@ public class Spreadsheets {
             System.out.println("String doesn't match return 0");
         }
         return 0;
+    }
+
+    private void calculateFormula(Cell formula){
+        ArrayList<String> input = formula.getFormulaArrayList();
+        Stack<String> operand = new Stack<>();
+        Stack<String> operator = new Stack<>();
+        int right, left, optor, ans;
+
+        //Infix calculate
+        for(String now: input){
+            switch (now){
+                case "+":
+                case "-":
+                case "*":
+                case "/":
+                    if(!operator.isEmpty()) {
+                        if (OPEARTOR.indexOf(operator.peek()) > OPEARTOR.indexOf(now)) {
+                            right = Integer.parseInt(operand.pop());
+                            left = Integer.parseInt(operand.pop());
+                            optor = OPEARTOR.indexOf(operator.pop());
+                            ans = 0;
+                            switch (optor) {
+                                case 0:
+                                    ans = right + left;
+                                    break;
+                                case 1:
+                                    ans = right - left;
+                                    break;
+                                case 2:
+                                    ans = right * left;
+                                    break;
+                                case 3:
+                                    ans = right / left;
+                                    break;
+                            }
+                            operand.push(Integer.toString(ans));
+                        }
+                    }
+                    operator.push(now);
+                    break;
+                default:
+                    now = Integer.toString(getNumberInCellbyName(now));
+                    operand.push(now);
+                    break;
+            }
+        }
+        for(;!operator.isEmpty();){
+            right = Integer.parseInt(operand.pop());
+            left = Integer.parseInt(operand.pop());
+            optor = OPEARTOR.indexOf(operator.pop());
+            ans = 0;
+            switch (optor) {
+                case 0:
+                    ans = right + left;
+                    break;
+                case 1:
+                    ans = right - left;
+                    break;
+                case 2:
+                    ans = right * left;
+                    break;
+                case 3:
+                    ans = right / left;
+                    break;
+            }
+            operand.push(Integer.toString(ans));
+        }
+
+        //Set Ans to Cell
+        ans = Integer.parseInt(operand.pop());
+        formula.setNumber(ans);
     }
 }
