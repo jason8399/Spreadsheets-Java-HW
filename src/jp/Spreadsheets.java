@@ -1,7 +1,6 @@
 package jp;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.regex.Matcher;
@@ -16,8 +15,10 @@ public class Spreadsheets {
     private Cell[][] sheet;
     private int row;
     private int column;
+    private Scanner input;
 
     public Spreadsheets() {
+        input = new Scanner(System.in);
     }
 
     public Spreadsheets(int row, int column) {
@@ -27,13 +28,15 @@ public class Spreadsheets {
     }
 
     public void makeSheet(){
+        this.column = input.nextInt();
+        this.row = input.nextInt();
+        this.sheet = new Cell[row][column];
         readCells();
         checkAndTranslateSheet();
         printSheet();
     }
 
     private void readCells(){
-        Scanner input = new Scanner(System.in);
 
         for(int row = 0; row < this.row; row++){
             for(int column = 0; column < this.column; column++){
