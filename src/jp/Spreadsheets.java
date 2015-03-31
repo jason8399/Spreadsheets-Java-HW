@@ -31,10 +31,10 @@ public class Spreadsheets {
 
         for(int row = 0; row < this.row; row++){
             for(int column = 0; column < this.column; column++){
-                if(input.hasNextInt()) {
+                if(input.hasNextInt()) {        //If next is int
                     this.sheet[row][column] = new Cell(input.nextInt());
                 }
-                else if(input.hasNextLine()){
+                else if(input.hasNextLine()){   //If next is formula
                     this.sheet[row][column] = new Cell(input.nextLine());
                 }
                 else{
@@ -45,14 +45,22 @@ public class Spreadsheets {
         }
     }
 
-    private int getNumberInCellbyName(String position){
+    private int getNumberInCellbyName(String name){
+        //Separate Alphabet and Number
         Pattern pattern = Pattern.compile("([A-F])(\\d+)");
-        Matcher matcher = pattern.matcher(position);
+        Matcher matcher = pattern.matcher(name);
 
+        //Check whether name is match or not
         if(matcher.matches()){
-            return this.sheet[TABLE.indexOf(matcher.group(1))][Integer.parseInt(matcher.group(2))].getNumber();
+            int row = TABLE.indexOf(matcher.group(1));
+            int column = Integer.parseInt(matcher.group(2));
+            //Check whether out of range or not;
+            if((row < this.row) && (column < this.column))
+                return this.sheet[row][column].getNumber();
+            else
+                System.out.println("OutOfRange return 0");
         }
-        else{
+        else {
             System.out.println("String doesn't match return 0");
         }
         return 0;

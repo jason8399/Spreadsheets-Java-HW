@@ -32,6 +32,7 @@ public class Cell {
         Pattern pattern = Pattern.compile("[+-/*]|[A-F]\\d+");
         Matcher matcher = pattern.matcher(this.formula);
 
+        //Add formula to ArrayList
         while(matcher.find()){
             processed.add(matcher.group());
         }
