@@ -19,7 +19,11 @@ public class Spreadsheets {
         this.sheet = new Cell[row][column];
     }
 
-    public void readCells(){
+    public void makeSheet(){
+        readCells();
+    }
+
+    private void readCells(){
         Scanner input = new Scanner(System.in);
 
         for(int row = 0; row < this.row; row++){

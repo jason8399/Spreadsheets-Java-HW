@@ -27,7 +27,7 @@ public class Cell {
         this.isFormula = true;
     }
 
-    public ArrayList<String> processFormula(){
+    public ArrayList<String> getFormulaArrayList(){
         ArrayList<String> processed = new ArrayList<>();
         Pattern pattern = Pattern.compile("[+-/*]|[A-F]\\d+");
         Matcher matcher = pattern.matcher(this.formula);
