@@ -49,6 +49,16 @@ public class Spreadsheets {
         }
     }
 
+    private void checkAndTranslateSheet(){
+        for(int row = 0; row < this.row; row++){
+            for(int column = 0; column < this.column; column++){
+                if(this.sheet[row][column].isFormula()){
+                    calculateFormula(this.sheet[row][column]);
+                }
+            }
+        }
+    }
+
     private int getNumberInCellbyName(String name){
         //Separate Alphabet and Number
         Pattern pattern = Pattern.compile("([A-F])(\\d+)");
