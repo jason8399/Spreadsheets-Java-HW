@@ -1,11 +1,14 @@
 package jp;
 
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by JasonPan on 3/31/15.
  */
 public class Spreadsheets {
+    private final String TABLE = "ABCDEF";
     private Cell[][] sheet;
     private int row;
     private int column;
@@ -40,5 +43,18 @@ public class Spreadsheets {
                 }
             }
         }
+    }
+
+    private int getNumberInCellbyName(String position){
+        Pattern pattern = Pattern.compile("([A-F])(\\d+)");
+        Matcher matcher = pattern.matcher(position);
+
+        if(matcher.matches()){
+            return this.sheet[TABLE.indexOf(matcher.group(1))][Integer.parseInt(matcher.group(2))].getNumber();
+        }
+        else{
+            System.out.println("String doesn't match return 0");
+        }
+        return 0;
     }
 }
