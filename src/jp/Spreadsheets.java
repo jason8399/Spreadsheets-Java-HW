@@ -15,43 +15,42 @@ public class Spreadsheets {
     private Cell[][] sheet;
     private int row;
     private int column;
-    private Scanner input;
+    private int nowRow;
+    private int nowColumn;
 
     public Spreadsheets() {
-        input = new Scanner(System.in);
     }
 
     public Spreadsheets(int row, int column) {
         this.row = row;
         this.column = column;
+        this.nowRow = 0;
+        this.nowColumn = 0;
         this.sheet = new Cell[row][column];
     }
 
     public void makeSheet(){
-        this.column = input.nextInt();
-        this.row = input.nextInt();
-        this.sheet = new Cell[row][column];
-        readCells();
         checkAndTranslateSheet();
         printSheet();
     }
 
-    private void readCells(){
-
-        for(int row = 0; row < this.row; row++){
-            for(int column = 0; column < this.column; column++){
-                if(input.hasNextInt()) {        //If next is int
-                    this.sheet[row][column] = new Cell(input.nextInt());
-                }
-                else if(input.hasNext()){   //If next is formula
-                    this.sheet[row][column] = new Cell(input.next());
-                }
-                else{
-                    System.out.println("Err input Type.\nDefault set cell 0");
-                    this.sheet[row][column] = new Cell(0);
-                }
-            }
+    public void nextCell(String inputString){
+        int number ;
+        if(inputString.matches("\\d+")) {
+            number = Integer.parseInt(inputString);
+            this.sheet[this.nowRow][this.nowColumn++] = new Cell(number);
         }
+        else
+            this.sheet[this.nowRow][this.nowColumn++] = new Cell(inputString);
+        if(this.nowColumn >= this.column){
+            this.nowRow++;
+            this.nowColumn = 0;
+        }
+    }
+
+    public boolean hasNextCell(){
+        if(this.nowRow < this.row) return true;
+        return false;
     }
 
     private void checkAndTranslateSheet(){
